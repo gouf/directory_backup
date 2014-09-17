@@ -1,0 +1,8 @@
+aws_s3:
+  access_key_id: 'YOUR_ACCESS_KEY_ID'
+  secret_access_key: 'YOUR_SECRET_KEY_ID'
+  bucket_name: 'my-bucket-for-backup'
+
+backup_files_directories:
+  include:
+    - "~/home/"
