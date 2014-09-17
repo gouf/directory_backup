@@ -8,3 +8,4 @@ backup_files_directories:
     - "~/home/"
   exclude:
     - 'tmp'
+  file_size_limit: '50MB'
