@@ -6,3 +6,5 @@ aws_s3:
 backup_files_directories:
   include:
     - "~/home/"
+  exclude:
+    - 'tmp'
