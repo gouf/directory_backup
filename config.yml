@@ -3,7 +3,7 @@ aws_s3:
   secret_access_key: 'YOUR_SECRET_KEY_ID'
   bucket_name: 'my-bucket-for-backup'
 
-backup_files_directories:
+backup_directories:
   include:
     - "~/"
   exclude:
