@@ -12,9 +12,7 @@ class S3Backup
   def initialize
     load_config
     @targets = []
-    @include_targets.each do |path|
-      add_target(path)
-    end
+    add_targets(@include_targets)
     @targets.uniq!
     @s3 = AWS::S3.new(
       access_key_id: @access_key_id,
