@@ -45,7 +45,9 @@ class S3Backup
   def upload
     @targets.each do |file_path|
       puts file_path
-      bucket.objects[file_path].write(file_path)
+      # remove first character : '/'
+      key = file_path.chars.slice(1, file_path.length)
+      bucket.objects[key].write(file_path)
     end
   end
 
