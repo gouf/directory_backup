@@ -42,4 +42,21 @@ class S3Backup
     @bucket_name       = c['bucket_name']
     @directory_prefix  = c['directory_prefix']
   end
+
+  def upload
+    @targets.each do |file_path|
+      puts file_path
+      bucket.objects[file_path].write(file_path)
+    end
+  end
+
+  def bucket
+    @s3.buckets[@bucket_name]
+  end
+
+  def buckets
+    @s3.buckets
+  end
+
+  alias_method :buckup, :upload
 end
