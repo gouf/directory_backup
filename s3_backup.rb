@@ -14,6 +14,7 @@ class S3Backup
     @targets = []
     add_targets(@include_targets)
     @targets.uniq!
+    exclude_targets!
     @s3 = AWS::S3.new(
       access_key_id: @access_key_id,
       secret_access_key: @secret_access_key
