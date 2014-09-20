@@ -1,5 +1,11 @@
 
 module TargetFilter
+  def add_targets(targets)
+    targets.each do |path|
+      add_target(path)
+    end
+  end
+
   def add_target(path)
     full_path = File.expand_path(path)
 

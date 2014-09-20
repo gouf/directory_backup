@@ -2,7 +2,7 @@ require 'aws-sdk'
 require 'yaml'
 require 'pp'
 require 'filesize'
-require_relative 'target_filter'
+require './target_filter'
 
 class S3Backup
   include TargetFilter
@@ -12,10 +12,9 @@ class S3Backup
   def initialize
     load_config
     @targets = []
-    @include_targets.each do |path|
-      add_target(path)
-    end
+    add_targets(@include_targets)
     @targets.uniq!
+    exclude_targets!
     @s3 = AWS::S3.new(
       access_key_id: @access_key_id,
       secret_access_key: @secret_access_key
@@ -46,7 +45,9 @@ class S3Backup
   def upload
     @targets.each do |file_path|
       puts file_path
-      bucket.objects[file_path].write(file_path)
+      # remove first character : '/'
+      key = file_path.chars.slice(1, file_path.length)
+      bucket.objects[key].write(file_path)
     end
   end
 
