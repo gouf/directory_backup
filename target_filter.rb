@@ -18,7 +18,9 @@ module TargetFilter
 
   def exclude_targets!
     proc_object =
-      proc { |target, condition| target.include?(condition) && File.directory?(target) }
+      proc do |target, condition|
+        target.include?(condition) && File.directory?(target)
+      end
     exclude_to(proc_object)
     exclude_exceeded_size_limitation!
   end
