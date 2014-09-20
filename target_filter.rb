@@ -38,10 +38,9 @@ module TargetFilter
     exclude_targets = @exclude_targets
     res = @targets
     exclude_targets.each do |condition|
-      res =
-        res.reject do |target|
-          proc_object.call(target, condition)
-        end
+      res.reject! do |target|
+        proc_object.call(target, condition)
+      end
     end
     @targets = res
   end
