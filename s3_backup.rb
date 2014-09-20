@@ -2,8 +2,10 @@ require 'aws-sdk'
 require 'yaml'
 require 'pp'
 require 'filesize'
+require_relative 'target_filter'
 
 class S3Backup
+  include TargetFilter
   attr_reader :targets
   attr_reader :include_targets, :targets
 
