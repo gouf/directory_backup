@@ -36,15 +36,13 @@ module TargetFilter
 
   private
 
-  def exclude_to(proc_object)
-    exclude_targets = @exclude_targets
-    res = @targets
-    exclude_targets.each do |condition|
-      res.reject! do |target|
+  def select_to(targets, conditions, proc_object)
+    conditions.each do |condition|
+      targets.select! do |target|
         proc_object.call(target, condition)
       end
     end
-    @targets = res
+    @targets = targets
   end
 
   def within_size_limit?(full_path)
