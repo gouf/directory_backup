@@ -47,13 +47,15 @@ module TargetFilter
     @targets = res
   end
 
-  def size_limit_exceeded?(full_path)
+  def within_size_limit?(full_path)
     # convert @limit_size to bytes
     match_data = @limit_size.delete(' ,').match(/(\d+)(.+)/).captures
     numeric, unit = match_data[0], match_data[1]
-    limit_size = Filesize.from("#{numeric} #{unit}").to_i
 
-    limit_size < File.size(full_path)
+    limit_size = Filesize.from("#{numeric} #{unit}").to_i
+    file_size = File.size(full_path)
+
+    limit_size > file_size
   end
 
   def file?(path)
