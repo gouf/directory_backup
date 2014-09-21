@@ -1,3 +1,8 @@
+class String
+  def not_include?(condition)
+    !include?(condition)
+  end
+end
 
 module TargetFilter
   def add_targets(targets)
