@@ -1,3 +1,8 @@
+class String
+  def not_include?(condition)
+    !include?(condition)
+  end
+end
 
 module TargetFilter
   def add_targets(targets)
@@ -18,41 +23,42 @@ module TargetFilter
 
   def exclude_targets!
     proc_object =
-      proc { |target, condition| !target.include?(condition) && file?(target) }
-    exclude_to(proc_object)
+      proc do |target, condition|
+        target.not_include?(condition) && file?(target)
+      end
+    select_to(@targets, @exclude_targets, proc_object)
     exclude_exceeded_size_limitation!
   end
 
   def exclude_exceeded_size_limitation!
     proc_object =
       proc do |target, _condition|
-        !size_limit_exceeded?(target) if File.size?(target)
+        within_size_limit?(target) if File.size?(target)
       end
 
-    exclude_to(proc_object)
+    select_to(@targets, @exclude_targets, proc_object)
   end
 
   private
 
-  def exclude_to(proc_object)
-    exclude_targets = @exclude_targets
-    res = @targets
-    exclude_targets.each do |condition|
-      res =
-        res.select do |target|
-          proc_object.call(target, condition)
-        end
+  def select_to(targets, conditions, proc_object)
+    conditions.each do |condition|
+      targets.select! do |target|
+        proc_object.call(target, condition)
+      end
     end
-    @targets = res
+    @targets = targets
   end
 
-  def size_limit_exceeded?(full_path)
+  def within_size_limit?(full_path)
     # convert @limit_size to bytes
     match_data = @limit_size.delete(' ,').match(/(\d+)(.+)/).captures
     numeric, unit = match_data[0], match_data[1]
-    limit_size = Filesize.from("#{numeric} #{unit}").to_i
 
-    limit_size < File.size(full_path)
+    limit_size = Filesize.from("#{numeric} #{unit}").to_i
+    file_size = File.size(full_path)
+
+    limit_size > file_size
   end
 
   def file?(path)
