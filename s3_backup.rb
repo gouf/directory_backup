@@ -59,5 +59,5 @@ class S3Backup
     @s3.buckets
   end
 
-  alias_method :buckup, :upload
+  alias_method :backup, :upload
 end
