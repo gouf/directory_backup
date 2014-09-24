@@ -6,7 +6,6 @@ require './target_filter'
 
 class S3Backup
   include TargetFilter
-  attr_reader :targets
   attr_reader :include_targets, :targets
 
   def initialize
