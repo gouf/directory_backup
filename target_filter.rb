@@ -14,6 +14,7 @@ module TargetFilter
   def add_target(path)
     full_path = File.expand_path(path)
 
+    @targets ||= []
     if File.directory?(full_path)
       @targets += Dir.glob(full_path + '/**/**').flatten
     else
